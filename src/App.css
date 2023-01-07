@@ -132,7 +132,12 @@
 }
 .header i {
   cursor: pointer;
+  color: #000;
 }
+.header i:hover{
+color: rgb(29, 155, 240) ;
+}
+
 .wrapper {
   margin-top: 50px;
 }

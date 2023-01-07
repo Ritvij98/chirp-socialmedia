@@ -3,6 +3,8 @@ import Tweet from "./Tweet";
 
 // TWITTER TIMELINE UI COMPONENT
 export default function Timeline({tweets,selectTweet,clearTweet}) {
+  let likedTweets = localStorage.getItem("likedTweets");
+  let likedTweetsArray = likedTweets ? JSON.parse(likedTweets) : [];
 
   useEffect(() => {
     clearTweet();
@@ -13,8 +15,8 @@ export default function Timeline({tweets,selectTweet,clearTweet}) {
       {tweets
         ? tweets.map((tweet) => {
             return (
-                <div onClick={()=>selectTweet(tweet)} key={tweet._id}>
-                    <Tweet tweetData={tweet} />
+                <div key={tweet._id}>
+                    <Tweet tweetData={tweet} selectTweet={selectTweet} likedTweetsArray={likedTweetsArray}/>
                 </div>
             );
           })

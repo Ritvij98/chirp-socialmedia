@@ -2,24 +2,31 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 // ORIGINAL TWEET PAGE COMPONENT
 export default function OriginalTweet({ tweetData }) {
- 
- const [liked, setLiked] = useState(false);
-
-//   useEffect(() => {
-//     const savedTweets = JSON.parse(localStorage.getItem("likedTweets"));
-//     savedTweets.forEach((id) => {
-//       if (tweetData._id === id) liked = true;
-//       console.log(id)
-//     });
-//   }, [liked]);
-
-  // STORING TWEET IN LOCALSTORAGE ON LIKING ORIGINAL TWEET
+  const [liked, setLiked] = useState(false);
   let likedTweets = localStorage.getItem("likedTweets");
   let likedTweetsArray = likedTweets ? JSON.parse(likedTweets) : [];
-  const likeTweet = (tweetData) => {
+
+   useEffect(() => {
+
+    likedTweetsArray.forEach((id) => {
+        if (tweetData._id === id) setLiked(true);
+        console.log(id)
+      });
+   }, []);
+
+  // STORING TWEET IN LOCALSTORAGE ON LIKING ORIGINAL TWEET
+
+  const likeTweet = () => {
+    if (liked) {
+      var removeTweet = likedTweetsArray.indexOf(tweetData._id); 
+      likedTweetsArray.splice(removeTweet, 1);
+      localStorage.setItem("likedTweets", JSON.stringify(likedTweetsArray));
+      setLiked(false);
+    } else {
       likedTweetsArray.push(tweetData._id);
       localStorage.setItem("likedTweets", JSON.stringify(likedTweetsArray));
       setLiked(true);
+    }
   };
 
   return (
@@ -47,7 +54,6 @@ export default function OriginalTweet({ tweetData }) {
             {tweetData.retweets}
           </div>
           <div className="tweet-action" onClick={likeTweet}>
-             
             <i
               className={
                 liked
