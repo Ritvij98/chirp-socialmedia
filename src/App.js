@@ -14,110 +14,33 @@ function App() {
   const [selectedTweet, setSelectedTweet] = useState(null);
 
   useEffect(() => {
-        setTweets({
-  "tweets": [
-    {
-      "_id": "tweet1",
-      "author": "Alice Johnson",
-      "text": "Just saw the most beautiful sunset!",
-      "imageUrl": "http://example.com/image1.jpg",
-      "url": "http://example.com/tweet1",
-      "publishedDate": "2024-01-10T17:00:00Z",
-      "replies": 3,
-      "retweets": 5,
-      "likes": 10
-    },
-    {
-      "_id": "tweet2",
-      "author": "Bob Smith",
-      "text": "Loving the new coffee shop downtown.",
-      "imageUrl": "http://example.com/image2.jpg",
-      "url": "http://example.com/tweet2",
-      "publishedDate": "2024-01-11T08:30:00Z",
-      "replies": 2,
-      "retweets": 3,
-      "likes": 8
-    },
- {
-      "_id": "tweet3",
-      "author": "Carol White",
-      "text": "Excited to start my new project!",
-      "imageUrl": "http://example.com/image3.jpg",
-      "url": "http://example.com/tweet3",
-      "publishedDate": "2024-01-12T09:20:00Z",
-      "replies": 4,
-      "retweets": 6,
-      "likes": 12
-    },
-    {
-      "_id": "tweet4",
-      "author": "Daniel Green",
-      "text": "Great workout at the gym today!",
-      "imageUrl": "http://example.com/image4.jpg",
-      "url": "http://example.com/tweet4",
-      "publishedDate": "2024-01-13T11:45:00Z",
-      "replies": 5,
-      "retweets": 2,
-      "likes": 9
-    },
-    {
-      "_id": "tweet5",
-      "author": "Eva Brown",
-      "text": "Can't wait for the weekend!",
-      "imageUrl": "http://example.com/image5.jpg",
-      "url": "http://example.com/tweet5",
-      "publishedDate": "2024-01-14T13:30:00Z",
-      "replies": 1,
-      "retweets": 4,
-      "likes": 7
-    },
-    {
-      "_id": "tweet6",
-      "author": "Frank Jones",
-      "text": "Reading a fascinating book about space.",
-      "imageUrl": "http://example.com/image6.jpg",
-      "url": "http://example.com/tweet6",
-      "publishedDate": "2024-01-15T15:15:00Z",
-      "replies": 3,
-      "retweets": 5,
-      "likes": 11
-    },
-    {
-      "_id": "tweet7",
-      "author": "Grace Lee",
-      "text": "Just completed a painting I'm really proud of.",
-      "imageUrl": "http://example.com/image7.jpg",
-      "url": "http://example.com/tweet7",
-      "publishedDate": "2024-01-16T17:50:00Z",
-      "replies": 6,
-      "retweets": 7,
-      "likes": 14
-    },
-    {
-      "_id": "tweet8",
-      "author": "Henry Martinez",
-      "text": "Exploring the city's hidden gems.",
-      "imageUrl": "http://example.com/image8.jpg",
-      "url": "http://example.com/tweet8",
-      "publishedDate": "2024-01-17T19:05:00Z",
-      "replies": 2,
-      "retweets": 3,
-      "likes": 6
-    },
-    {
-      "_id": "tweet9",
-      "author": "Isla Davis",
-      "text": "Just adopted a new kitten!",
-      "imageUrl": "http://example.com/image9.jpg",
-      "url": "http://example.com/tweet9",
-      "publishedDate": "2024-01-18T20:30:00Z",
-      "replies": 4,
-      "retweets": 8,
-      "likes": 15
-    }
-  ]
-});
-        setFilteredTweets(json);
+    fetch(
+      "https://raw.githubusercontent.com/typicode/jsonplaceholder/master/data.json"
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        const tweetsData = json.posts.map((post) => {
+          const user = json.users.find((u) => u.id === post.userId);
+          const photo = json.photos.find((p) => p.id === post.id);
+          const replies = json.comments.filter((c) => c.postId === post.id).length;
+          const index = post.id;
+          const publishedDate = new Date(Date.now() - index * 86400000).toISOString();
+          return {
+            _id: `post${post.id}`,
+            author: user ? user.name : "Unknown",
+            text: post.title,
+            imageUrl: photo ? photo.thumbnailUrl : "https://via.placeholder.com/150",
+            url: `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+            publishedDate,
+            replies,
+            retweets: index * 2,
+            likes: index * 3,
+          };
+        });
+        setTweets(tweetsData);
+        setFilteredTweets(tweetsData);
+      })
+      .catch((err) => console.log(err));
   }, []);
   
   // useEffect(() => {
