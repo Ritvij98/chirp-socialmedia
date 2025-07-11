@@ -22,8 +22,5 @@ The timeline displays sample posts fetched from [JSONPlaceholder](https://jsonpl
    ```bash
    npm start
    ```
-3. Run tests (none are included by default but React scripts will run):
-   ```bash
-   npm test -- --watchAll=false --passWithNoTests
-   ```
+
 
