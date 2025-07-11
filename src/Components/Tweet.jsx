@@ -8,7 +8,7 @@ export default function Tweet({ tweetData, selectTweet, likedTweetsArray }) {
     likedTweetsArray.forEach((id) => {
       if (tweetData._id === id) setLiked(true);
     });
-  }, []);
+  }, [likedTweetsArray, tweetData._id]);
 
   // STORING TWEET IN LOCALSTORAGE ON LIKING ORIGINAL TWEET
 
