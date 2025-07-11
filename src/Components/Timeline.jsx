@@ -8,7 +8,7 @@ export default function Timeline({tweets,selectTweet,clearTweet}) {
 
   useEffect(() => {
     clearTweet();
-  },[])
+  }, [clearTweet]);
 
   return (
     <div className="timeline">

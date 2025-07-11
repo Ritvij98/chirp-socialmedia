@@ -6,13 +6,12 @@ export default function OriginalTweet({ tweetData }) {
   let likedTweets = localStorage.getItem("likedTweets");
   let likedTweetsArray = likedTweets ? JSON.parse(likedTweets) : [];
 
-   useEffect(() => {
-
+  useEffect(() => {
     likedTweetsArray.forEach((id) => {
-        if (tweetData._id === id) setLiked(true);
-        console.log(id)
-      });
-   }, []);
+      if (tweetData._id === id) setLiked(true);
+      console.log(id);
+    });
+  }, [likedTweetsArray, tweetData._id]);
 
   // STORING TWEET IN LOCALSTORAGE ON LIKING ORIGINAL TWEET
 
