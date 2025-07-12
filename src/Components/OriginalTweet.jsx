@@ -7,6 +7,7 @@ export default function OriginalTweet({ tweetData }) {
   let likedTweetsArray = likedTweets ? JSON.parse(likedTweets) : [];
 
   useEffect(() => {
+    if (!likedTweetsArray?.length) return;
     likedTweetsArray.forEach((id) => {
       if (tweetData._id === id) setLiked(true);
       console.log(id);
